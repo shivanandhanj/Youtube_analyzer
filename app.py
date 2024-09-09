@@ -32,7 +32,7 @@ def analyze_video():
     # Answer question (if provided)
     answer = ''
     if question:
-        answer = ask_question(transcript, question)
+        answer = ask_question(formatted_transcript, question)
 
     return jsonify({
         'transcript': formatted_transcript,
