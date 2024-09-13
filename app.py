@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from utils.youtube import extract_video_id, get_transcript
 from nlp.summarization import summarize_text
 from nlp.qna import ask_question
+from youtube_api.youtube_client import get_video_details, get_video_comments, get_most_liked_comments, get_comments_with_timestamps
 
 app = Flask(__name__)
 
@@ -11,8 +12,10 @@ def index():
 
 @app.route('/analyze', methods=['POST'])
 def analyze_video():
+    
     data = request.get_json()
     video_url = data.get('video_url')
+    print(video_url)
     question = data.get('question', '')
 
     # Extract video ID from URL
@@ -39,6 +42,58 @@ def analyze_video():
         'summary': summary,
         'answer': answer
     })
+
+
+@app.route('/comment-details',methods=['POST'])
+def get_comments():
+    data = request.get_json()
+    video_url = data.get('video_url')
+   
+    video_id=extract_video_id(video_url)
+    if video_id:
+        # Fetch video details
+        
+        comments=get_video_comments(video_id)
+       
+        cmt_likes=get_most_liked_comments(video_id)
+      
+        cmt=get_comments_with_timestamps(video_id)
+        
+
+     
+    return jsonify({
+        'all_comments':comments,
+        'top_comments':cmt_likes,
+        'timestamped_comments':cmt
+    })
+        
+   
+
+
+@app.route('/details',methods=['POST'])
+def get_details():
+    data = request.get_json()
+    video_url = data.get('video_url')
+   
+    video_id=extract_video_id(video_url)
+
+    if video_id:
+        # Fetch video details
+        details = get_video_details(video_id)
+        get_video_comments(video_id)
+        cmt=[]
+        cmt=get_most_liked_comments(video_id)
+        print(cmt)
+        cmt=get_comments_with_timestamps(video_id)
+        print(cmt)
+
+        if details:
+            return jsonify(details)
+        else:
+            return jsonify({'error': 'Video not found'}), 404
+    else:
+        return jsonify({'error': 'Invalid video URL'}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -15,6 +15,33 @@
         <input type="text" id="question" name="question">
         <button type="submit">Analyze</button>
     </form>
+    <form id="analyze-details">
+        
+        <button type="submit">Get Video Details</button>
+    </form>
+    <div id="result" style="display:none;">
+        <div class="video-details">
+            <h3>Title:</h3>
+            <p id="title"></p>
+        </div>
+        <div class="video-details">
+            <h3>Description:</h3>
+            <p id="description"></p>
+        </div>
+        <div class="video-details">
+            <h3>Views:</h3>
+            <p id="views"></p>
+        </div>
+        <div class="video-details">
+            <h3>Likes:</h3>
+            <p id="likes"></p>
+        </div>
+        <div class="video-details">
+            <h3>Comments:</h3>
+            <p id="comments"></p>
+        </div>
+    </div>
+
 
     <div id="result">
         <h3>Transcript:</h3>
@@ -24,6 +51,35 @@
         <h3>Answer:</h3>
         <pre id="answer"></pre>
     </div>
+
+    <form id="analyze-comment">
+        
+        <button type="submit">Get Comment Details</button>
+    </form>
+
+    <!-- Top Comments Section -->
+<div class="video-details">
+    <h3>Top Comments (Most Liked)</h3>
+    <div id="top-comments-section" class="comments-section">
+        <!-- Most liked comments will be injected here dynamically -->
+    </div>
+</div>
+
+<!-- Timestamped Comments Section -->
+<div class="video-details">
+    <h3>Timestamped Comments</h3>
+    <div id="timestamp-comments-section" class="comments-section">
+        <!-- Timestamped comments will be injected here dynamically -->
+    </div>
+</div>
+
+<!-- All Comments Section -->
+<div class="video-details">
+    <h3>All Comments</h3>
+    <div id="all-comments-section" class="comments-section">
+        <!-- All comments will be injected here dynamically -->
+    </div>
+</div>
 
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
